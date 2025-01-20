@@ -18,7 +18,14 @@ class TestStack(TestCase):
 
     def test_pop(self):
         """Test popping an item of off the stack"""
-        raise Exception("not implemented")
+        self.stack.push(3)
+        self.stack.push(5)
+        self.assertEqual(self.stack.pop(), 5)
+        self.assertEqual(self.stack.peek(), 3)
+        self.stack.pop()
+        self.assertTrue(self.stack.is_empty())
+
+        
 
     def test_peek(self):
         """Test peeking at the top the stack"""
