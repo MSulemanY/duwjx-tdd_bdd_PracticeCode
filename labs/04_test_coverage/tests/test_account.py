@@ -78,5 +78,23 @@ class TestAccountModel(TestCase):
         self.assertEqual(account.name, data["name"])
         self.assertEqual(account.email, data["email"])
         self.assertEqual(account.phone_number, data["phone_number"])
-        self.assertEqual(account.disabled, data["disabled"])        
+        self.assertEqual(account.disabled, data["disabled"])   
+
+    def test_update_an_account(self):
+        """ Test Account update using known data """
+        data = ACCOUNT_DATA[self.rand] 
+        account = Account(**data)
+        account.create()
+        self.assertIsNotNone(account.id)
+        account.name = "Foo"
+        account.update()
+        found = Account.find(account.id)
+        self.assertEqual(found.name, "Foo")   
+
+    def test_invalid_id_on_update(self):
+        """ Test invalid ID update """
+        data = ACCOUNT_DATA[self.rand] 
+        account = Account(**data)
+        account.id = None
+        self.assertRaises(DataValidationError, account.update)                  
         
