@@ -58,3 +58,14 @@ class TestAccountModel(TestCase):
         account = Account()
         account.name = "Foo"
         self.assertEqual(str(account), "<Account 'Foo'>")
+
+    def test_to_dict(self):
+        """ Test account to dict """
+        data = ACCOUNT_DATA[self.rand] 
+        account = Account(**data)
+        result = account.to_dict()
+        self.assertEqual(account.name, result["name"])
+        self.assertEqual(account.email, result["email"])
+        self.assertEqual(account.phone_number, result["phone_number"])
+        self.assertEqual(account.disabled, result["disabled"])
+        self.assertEqual(account.date_joined, result["date_joined"])        
