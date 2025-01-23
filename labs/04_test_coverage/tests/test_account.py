@@ -96,5 +96,15 @@ class TestAccountModel(TestCase):
         data = ACCOUNT_DATA[self.rand] 
         account = Account(**data)
         account.id = None
-        self.assertRaises(DataValidationError, account.update)                  
+        self.assertRaises(DataValidationError, account.update) 
+
+    def test_delete_an_account(self):
+        """ Test Account deletion using known data """
+        data = ACCOUNT_DATA[self.rand] 
+        account = Account(**data)
+        account.create()
+        self.assertEqual(len(Account.all()), 1)
+        account.delete()
+        self.assertEqual(len(Account.all()), 0)        
+
         
