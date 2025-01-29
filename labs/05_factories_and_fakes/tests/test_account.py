@@ -6,6 +6,7 @@ from random import randrange
 from unittest import TestCase
 from models import db
 from models.account import Account, DataValidationError
+from factories import AccountFactory
 
 ACCOUNT_DATA = {}
 
