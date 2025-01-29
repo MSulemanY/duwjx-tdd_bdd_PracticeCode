@@ -17,9 +17,7 @@ class TestAccountModel(TestCase):
     def setUpClass(cls):
         """ Load data needed by tests """
         db.create_all()  # make our sqlalchemy tables
-        global ACCOUNT_DATA
-        with open('tests/fixtures/account_data.json') as json_data:
-            ACCOUNT_DATA = json.load(json_data)
+        
 
     @classmethod
     def tearDownClass(cls):
@@ -49,10 +47,10 @@ class TestAccountModel(TestCase):
 
     def test_create_an_account(self):
         """ Test Account creation using known data """
-        data = ACCOUNT_DATA[self.rand] # get a random account
-        account = Account(**data)
+        account = AccountFactory()
         account.create()
         self.assertEqual(len(Account.all()), 1)
+    
 
     def test_repr(self):
         """Test the representation of an account"""
