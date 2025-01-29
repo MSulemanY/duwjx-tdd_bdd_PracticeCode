@@ -23,4 +23,14 @@ class TestIMDbDatabase(TestCase):
     ######################################################################
     #  T E S T   C A S E S
     ######################################################################
+    @patch('test_imdb.IMDb.search_titles')
+    def test_search_by_title(self, imdb_mock):   
+        """Test searching by title"""
+        imdb_mock.return_value = IMDB_DATA["GOOD_SEARCH"]
+        imdb = IMDb("k_12345678")
+        results = imdb.search_titles("Bambi")
+        self.assertIsNotNone(results)
+        self.assertIsNone(results["errorMessage"])
+        self.assertIsNotNone(results["results"])
+        self.assertEqual(results["results"][0]["id"], "tt1375666")
 
