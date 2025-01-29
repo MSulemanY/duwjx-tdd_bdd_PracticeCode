@@ -8,7 +8,7 @@ from models import db
 from models.account import Account, DataValidationError
 from factories import AccountFactory
 
-ACCOUNT_DATA = {}
+
 
 class TestAccountModel(TestCase):
     """Test Account Model"""
@@ -16,8 +16,7 @@ class TestAccountModel(TestCase):
     @classmethod
     def setUpClass(cls):
         """ Load data needed by tests """
-        db.create_all()  # make our sqlalchemy tables
-        
+        db.create_all()  # make our sqlalchemy tables        
 
     @classmethod
     def tearDownClass(cls):
@@ -26,7 +25,6 @@ class TestAccountModel(TestCase):
 
     def setUp(self):
         """Truncate the tables"""
-        self.rand = randrange(0, len(ACCOUNT_DATA))
         db.session.query(Account).delete()
         db.session.commit()
 
@@ -70,9 +68,9 @@ class TestAccountModel(TestCase):
 
     def test_from_dict(self):
         """ Test account from dict """
-    
-        data = AccountFactory()
         account = Account()
+        data = AccountFactory().to_dict()
+        
         account.from_dict(data)
         self.assertEqual(account.name, data["name"])
         self.assertEqual(account.email, data["email"])
@@ -81,8 +79,8 @@ class TestAccountModel(TestCase):
 
     def test_update_an_account(self):
         """ Test Account update using known data """
-        data = ACCOUNT_DATA[self.rand] # get a random account
-        account = Account(**data)
+        
+        account = AccountFactory()
         account.create()
         self.assertIsNotNone(account.id)
         account.name = "Rumpelstiltskin"
@@ -92,7 +90,7 @@ class TestAccountModel(TestCase):
 
     def test_invalid_id_on_update(self):
         """ Test invalid ID update """
-        data = ACCOUNT_DATA[self.rand] # get a random account
+        
         account = AccountFactory()
         account.id = None
         self.assertRaises(DataValidationError, account.update)
