@@ -34,3 +34,11 @@ class TestIMDbDatabase(TestCase):
         self.assertIsNotNone(results["results"])
         self.assertEqual(results["results"][0]["id"], "tt1375666")
 
+
+    @patch('models.imdb.requests.get')
+    def test_search_with_no_results(self, imdb_mock):
+        imdb_mock.return_value = Mock(status_code=404)
+        """Test searching with no results"""
+        imdb = IMDb("k_12345678")
+        results = imdb.search_titles("Bambi")
+        self.assertEqual(results, {})
