@@ -42,10 +42,10 @@ class TestAccountModel(TestCase):
 
     def test_create_all_accounts(self):
         """ Test creating multiple Accounts """
-        for data in ACCOUNT_DATA:
-            account = Account(**data)
+        for _ in range(10):
+            account = AccountFactory() 
             account.create()
-        self.assertEqual(len(Account.all()), len(ACCOUNT_DATA))
+        self.assertEqual(len(Account.all()), 10)
 
     def test_create_an_account(self):
         """ Test Account creation using known data """
