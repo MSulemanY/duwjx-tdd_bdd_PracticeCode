@@ -27,6 +27,12 @@ class CounterTest(TestCase):
         self.assertEqual(result.status_code, status.HTTP_409_CONFLICT)
      
     def test_update_a_counter(self):
-        """It should update the counter """
+        """It should increase the counter by one """
         result = self.client.post("/counters/Bob")
         self.assertEqual(result.status_code, stauts.HTTP_201_CREATED)
+        data = result.get_json()
+        baseline = data["Bob"]
+        result = self.client.put("/counters/Bobhai")
+        self.assertEqual(result.status_code, status.HTTP_200_OK)
+        data = result.get_json()
+        self.assertEqual(data["baz"], baseline + 1)    
