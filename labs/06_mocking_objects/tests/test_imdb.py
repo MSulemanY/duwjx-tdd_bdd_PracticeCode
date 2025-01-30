@@ -54,5 +54,20 @@ class TestIMDbDatabase(TestCase):
         imdb = IMDb("bad-key")
         results = imdb.search_titles("Bambi")
         self.assertIsNotNone(results)
-        self.assertEqual(results["errorMessage"], "Invalid API Key")  
-              
+        self.assertEqual(results["errorMessage"], "Invalid API Key")
+
+    @patch('models.imdb.requests.get')
+    def test_movie_ratings(self, imdb_mock):
+        """Test movie Ratings"""
+        imdb_mock.return_value = Mock(
+            spec=Response,
+            status_code=200,
+            json=Mock(return_value=IMDB_DATA["GOOD_RATING"])
+        )
+        imdb = IMDb("k_12345678")
+        results = imdb.movie_ratings("tt1375666")
+        self.assertIsNotNone(results)
+        self.assertEqual(results["title"], "Bambi")
+        self.assertEqual(results["filmAffinity"], 3)
+        self.assertEqual(results["rottenTomatoes"], 5)    
+
