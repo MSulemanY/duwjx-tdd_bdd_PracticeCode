@@ -32,12 +32,11 @@ def step_impl(context, button):
 def step_impl(context, message):
     element = context.driver.find_element(By.ID, 'flash_message')
     assert message in element.text
-    
-@then('I should see "Fido" in the results')
-def step_impl(context):
-    element = context.driver.find_element(By.ID, 'search_results')
-    assert "Fido" in element.text
 
+@then('I should see "{search_text}" in the results')
+def step_impl(context, search_text):
+    element = context.driver.find_element(By.ID, 'search_results')
+    assert search_text in element.text
 @then('I should not see "Kitty" in the results')
 def step_impl(context):
     element = context.driver.find_element(By.ID, 'search_results')
