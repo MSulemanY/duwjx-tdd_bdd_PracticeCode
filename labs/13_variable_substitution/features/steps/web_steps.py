@@ -14,12 +14,12 @@ from selenium.webdriver.common.by import By
 def step_impl(context):
     context.response = context.driver.get(context.base_url)
 
-@when('I set the "{element_name}" to "dog"')
+@when('I set the "{element_name}" to "{text_s}"')
 def step_impl(context, element_name):
     element_id = "pet_" + element_name.lower().replace(' ', '_')
     element = context.driver.find_element(By.ID, element_id)
     element.clear()
-    element.send_keys('dog')
+    element.send_keys('{text_s}')
 
 @when('I click the "Search" button')
 def step_impl(context):
